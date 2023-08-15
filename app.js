@@ -1,39 +1,20 @@
 "use strict";
-function add1(num1, num2) {
-    //using if..else for different data type
-    if (typeof num1 === 'number' && typeof num2 === 'number')
-        return num1 + num2;
-    else if (typeof num1 === 'string' && typeof num2 === 'string')
-        return num1 + ' ' + num2;
-    else
-        return +num1 + +num2;
-}
-const num1 = document.getElementById('num1');
-const num2 = document.getElementById('num2');
-let numResults = [];
-let textResults = [];
-//TypeScript can "guess" the type of a value and it is called infering the value
-const button = document.querySelector('button');
-//In case of button TS can infer its type because we are using 'button'
-//typescript does not know about the html file so it doesnot whether button element will be null
-// or not so we use '!' for telling typescript to ignore null check and if its null use num2
-button.addEventListener('click', () => {
-    const result = add1(num1.value, num2.value);
-    const resultString = add1(num1.value, num2.value);
-    numResults.push(result);
-    textResults.push(resultString);
-    displayResults({ val: result, timestamp: new Date() });
-    displayResults({ val: resultString, timestamp: new Date() });
-    console.log(numResults);
-    console.log(textResults);
-});
-function displayResults(obj) {
-    console.log(obj.val);
-}
-//using promises
-const promise = new Promise((resolve, reject) => {
-    setTimeout(() => {
-        resolve('hello World');
-    }, 1000);
-});
-promise.then((res) => console.log(res.split(' '))).catch(err => console.log(err));
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const todos_1 = __importDefault(require("./Routes/todos"));
+const body_parser_1 = __importDefault(require("body-parser"));
+const app = (0, express_1.default)();
+app.use(body_parser_1.default.json()); // ts infers the bodyparser as we havenot added @types/body-parser still we will install it
+app.use(todos_1.default);
+app.listen(3000);
+/* -----------NOTES---------------
+typescript doesnot know where we are going to run this so and does require even exisit or not
+npm i --save-dev @types/node -this will allow packages which provide typescript translation for
+javascript code
+npm i --save-dev @types/express
+.d.ts files in node_modules - they contain instructions for typescript to compile these
+javascript code
+*/ 
