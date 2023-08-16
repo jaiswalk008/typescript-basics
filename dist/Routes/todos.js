@@ -10,17 +10,19 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     //cant use empty data
     // console.log(req.body);
+    const body = req.body;
     const newTodo = {
-        id: req.body.id,
-        text: req.body.text
+        id: body.id,
+        text: body.text
     };
     todos.push(newTodo);
     res.json({ todo: newTodo });
 });
 router.post('/edit', (req, res) => {
-    todos.forEach(element => {
+    const body = req.body;
+    todos.forEach((element, index) => {
         if (req.body.id == element.id) {
-            element.text = req.body.text;
+            todos[index] = { id: body.id, text: body.text };
             res.json({ todo: element });
         }
     });
